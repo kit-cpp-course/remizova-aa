@@ -1,12 +1,12 @@
 #include"ifcpch.h"
 #include "huffman.h"
 
-//Рекурсивная функция для построения дерева и генерации кодов Хаффмана
+//Р РµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РґРµСЂРµРІР° Рё РіРµРЅРµСЂР°С†РёРё РєРѕРґРѕРІ РҐР°С„С„РјР°РЅР°
 void traverse(node_ptr node, std::string code);
 
 HuffmanTree::HuffmanTree()
 {
-	//Инициализация таблицы частот
+	//РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ С‚Р°Р±Р»РёС†С‹ С‡Р°СЃС‚РѕС‚
 	for (int i = 0; i < 256; i++)
 	{
 		m_freqTable[i] = new HuffmanNode;
@@ -19,16 +19,16 @@ HuffmanTree::HuffmanTree()
 std::string HuffmanTree::encode(std::vector<unsigned char> buffer)
 {
 	{
-		//Заполнение таблицы частот
+		//Р—Р°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ С‡Р°СЃС‚РѕС‚
 		for (auto id = buffer.begin(); id != buffer.end(); id++)
 			m_freqTable[*id]->freq++;
 
-		//Заполнение приоритетной очереди цветами, которые встречаются 1 или больше раз
+		//Р—Р°РїРѕР»РЅРµРЅРёРµ РїСЂРёРѕСЂРёС‚РµС‚РЅРѕР№ РѕС‡РµСЂРµРґРё С†РІРµС‚Р°РјРё, РєРѕС‚РѕСЂС‹Рµ РІСЃС‚СЂРµС‡Р°СЋС‚СЃСЏ 1 РёР»Рё Р±РѕР»СЊС€Рµ СЂР°Р·
 		for (int i = 0; i < 256; i++)
 			if (m_freqTable[i]->freq)
 				pq.push(m_freqTable[i]);
 
-		//Создание дерева Хаффмана
+		//РЎРѕР·РґР°РЅРёРµ РґРµСЂРµРІР° РҐР°С„С„РјР°РЅР°
 		auto temp(pq);
 		while (temp.size() > 1)
 		{
@@ -46,23 +46,23 @@ std::string HuffmanTree::encode(std::vector<unsigned char> buffer)
 	}
 	std::string in = "", s = "";	
 	{
-		//Первый байт будет содержать количество узлов дерева
+		//РџРµСЂРІС‹Р№ Р±Р°Р№С‚ Р±СѓРґРµС‚ СЃРѕРґРµСЂР¶Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СѓР·Р»РѕРІ РґРµСЂРµРІР°
 		in += (char)pq.size();
 		auto temp(pq);
-		//Запись всех цветов с их кодами
+		//Р—Р°РїРёСЃСЊ РІСЃРµС… С†РІРµС‚РѕРІ СЃ РёС… РєРѕРґР°РјРё
 		while (!temp.empty())
 		{
 			node_ptr current = temp.top();
 			in += current->color;
 
-			//Заполнение 128 битной строки 0
+			//Р—Р°РїРѕР»РЅРµРЅРёРµ 128 Р±РёС‚РЅРѕР№ СЃС‚СЂРѕРєРё 0
 			s.assign(127 - current->code.size(), '0');
 
-			//'1' сигнализирует о начале кода Хаффмана
+			//'1' СЃРёРіРЅР°Р»РёР·РёСЂСѓРµС‚ Рѕ РЅР°С‡Р°Р»Рµ РєРѕРґР° РҐР°С„С„РјР°РЅР°
 			s += '1';
 			s.append(current->code);
 			
-			//Конвертирование 128 0 и 1 в 8 битные числа для записи в файл			
+			//РљРѕРЅРІРµСЂС‚РёСЂРѕРІР°РЅРёРµ 128 0 Рё 1 РІ 8 Р±РёС‚РЅС‹Рµ С‡РёСЃР»Р° РґР»СЏ Р·Р°РїРёСЃРё РІ С„Р°Р№Р»			
 			for (int i = 0; i < 16; i++)
 			{
 				in += (char)std::bitset<8>(s.substr(0, 8)).to_ulong();
@@ -72,7 +72,7 @@ std::string HuffmanTree::encode(std::vector<unsigned char> buffer)
 		}
 		s.clear();
 
-		//Замена пикселей кодами Хаффмана 
+		//Р—Р°РјРµРЅР° РїРёРєСЃРµР»РµР№ РєРѕРґР°РјРё РҐР°С„С„РјР°РЅР° 
 		for (auto id = buffer.begin(); id != buffer.end(); id++)
 		{
 			s += m_freqTable[*id]->code;
@@ -85,7 +85,7 @@ std::string HuffmanTree::encode(std::vector<unsigned char> buffer)
 
 		int count = 8 - s.size();
 		
-		//Дополнение до целого байта
+		//Р”РѕРїРѕР»РЅРµРЅРёРµ РґРѕ С†РµР»РѕРіРѕ Р±Р°Р№С‚Р°
 		if (s.size() < 8)
 		{
 			s.append(count, '0');
@@ -98,7 +98,7 @@ std::string HuffmanTree::encode(std::vector<unsigned char> buffer)
 
 std::vector<unsigned char> HuffmanTree::decode(std::fstream& stream)
 {	
-	//Количество узлов в дереве Хаффмана
+	//РљРѕР»РёС‡РµСЃС‚РІРѕ СѓР·Р»РѕРІ РІ РґРµСЂРµРІРµ РҐР°С„С„РјР°РЅР°
 	unsigned char size;
 	stream.read((char*)&size, 1);
 	m_root = new HuffmanNode;
@@ -107,16 +107,16 @@ std::vector<unsigned char> HuffmanTree::decode(std::fstream& stream)
 		unsigned char a_code;
 		stream.read((char*)&a_code, 1);
 
-		//Чтение 128 битной строки
+		//Р§С‚РµРЅРёРµ 128 Р±РёС‚РЅРѕР№ СЃС‚СЂРѕРєРё
 		unsigned char h_code_c[16];
 		stream.read((char*)h_code_c, 16);
 
-		//Перевод в двоичный вид
+		//РџРµСЂРµРІРѕРґ РІ РґРІРѕРёС‡РЅС‹Р№ РІРёРґ
 		std::string h_code_s = "";
 		for (int i = 0; i < 16; i++)
 			h_code_s += std::bitset<8>(h_code_c[i]).to_string();
 
-		//Получение кода Хаффмана
+		//РџРѕР»СѓС‡РµРЅРёРµ РєРѕРґР° РҐР°С„С„РјР°РЅР°
 		int j = 0;
 		while (h_code_s[j] == '0') j++;
 		h_code_s = h_code_s.substr(j + 1);
@@ -127,12 +127,12 @@ std::vector<unsigned char> HuffmanTree::decode(std::fstream& stream)
 	char count;
 	stream.read(&count, 1);
 
-	//Переход к началу закодированного изображение 
+	//РџРµСЂРµС…РѕРґ Рє РЅР°С‡Р°Р»Сѓ Р·Р°РєРѕРґРёСЂРѕРІР°РЅРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
 	stream.seekg(1 + 17 * size, std::ios::beg);
 
 	std::vector<unsigned char> text;
 
-	//Чтение байт за байтом
+	//Р§С‚РµРЅРёРµ Р±Р°Р№С‚ Р·Р° Р±Р°Р№С‚РѕРј
 	unsigned char textseg;
 	stream.read((char*)&textseg, 1);
 	while (!stream.eof())
@@ -144,7 +144,7 @@ std::vector<unsigned char> HuffmanTree::decode(std::fstream& stream)
 	node_ptr current = m_root;
 	std::string path;
 	std::vector<unsigned char> buffer;
-	//Расшифровка кодов Хаффмана
+	//Р Р°СЃС€РёС„СЂРѕРІРєР° РєРѕРґРѕРІ РҐР°С„С„РјР°РЅР°
 	for (int i = 0; i < text.size() - 1; i++)
 	{
 		path = std::bitset<8>((text[i])).to_string();
@@ -188,7 +188,7 @@ inline void HuffmanTree::build_tree(std::string& path, unsigned char a_code)
 	current->color = a_code;
 }
 
-//Рекурсивная функция для построения дерева и генерации кодов Хаффмана
+//Р РµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РґРµСЂРµРІР° Рё РіРµРЅРµСЂР°С†РёРё РєРѕРґРѕРІ РҐР°С„С„РјР°РЅР°
 void traverse(node_ptr node, std::string code)
 {
 	if (node->left == nullptr && node->right == nullptr)
