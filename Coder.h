@@ -1,14 +1,13 @@
 #ifndef CODER_H
 #define CODER_H
+#include <vector>
 #include "huffman.h"
 class Coder abstract
 {
 public:	
-	Coder();
-	~Coder();
 	virtual void process() = 0;
 protected:
-	/*РЎС‚СЂСѓРєС‚СѓСЂР°, СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РїР°СЂР°РјРµС‚СЂС‹ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ */
+	/*Структура, содержащая параметры изображения */
 	struct
 	{
 		int width;
@@ -16,11 +15,11 @@ protected:
 		int channels;
 		std::vector<unsigned char> pixels;
 	}m_imageData;	
-	/* РћР±СЉРµРєС‚, СЂРµР°Р»РёР·СѓСЋС‰РёР№ РјРµС‚РѕРґ РєРѕРґРёСЂРѕРІРєРё*/
+	/* Объект, реализующий метод кодировки*/
 	HuffmanTree m_huffmanTree;
-	/*РџСѓС‚Рё Рє РІС…РѕРґРЅРѕРјСѓ Рё РІС‹С…РѕРґРЅРѕРјСѓ С„Р°Р№Р»Р°Рј*/
+	/*Пути к входному и выходному файлам*/
 	std::string m_inPath, m_outPath;
-	/*РџРѕС‚РѕРє РґР°РЅРЅС‹С… РґР»СЏ Р·Р°РїРёСЃРё РІС…РѕРґРЅС‹С… Рё РІС‹С…РѕРґРЅС‹С… С„Р°Р№Р»РѕРІ*/
+	/*Поток данных для записи входных и выходных файлов*/
 	std::fstream m_stream;
 };
 

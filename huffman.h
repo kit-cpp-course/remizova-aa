@@ -16,6 +16,8 @@ class HuffmanTree
 {										
 public:	
 	HuffmanTree();
+	~HuffmanTree();
+	HuffmanTree(const HuffmanTree& other);
 
 	//Функция кодировки, принимающая массив пикселей и возвращающая строку, состоящую из кодов Хаффмана 
 	std::string encode(std::vector<unsigned char> buffer);

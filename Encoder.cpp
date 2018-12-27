@@ -13,9 +13,6 @@ Encoder::Encoder(const char* filepath)
 	m_outPath = outFile;
 }
 
-Encoder::~Encoder()
-{}
-
 void Encoder::process()
 {
 	unsigned char* data = stbi_load(m_inPath.c_str(), &m_imageData.width, &m_imageData.height, &m_imageData.channels, STBI_grey);

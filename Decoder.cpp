@@ -13,10 +13,6 @@ Decoder::Decoder(const char* filepath)
 	m_outPath = outFile;
 }
 
-Decoder::~Decoder()
-{
-}
-
 void Decoder::process()
 {	
 	m_stream.open(m_inPath, std::ios::in | std::ios::binary);
