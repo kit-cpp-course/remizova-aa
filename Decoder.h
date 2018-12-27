@@ -1,9 +1,8 @@
 #ifndef DECODER_H
 #define DECODER_H
 #include"Coder.h"
-
 /*
-* Возвращает бинарный файл обратно в картинку
+* Р’РѕР·РІСЂР°С‰Р°РµС‚ Р±РёРЅР°СЂРЅС‹Р№ С„Р°Р№Р» РѕР±СЂР°С‚РЅРѕ РІ РєР°СЂС‚РёРЅРєСѓ
 */
 class Decoder: public Coder
 {
@@ -11,7 +10,7 @@ public:
 	Decoder(const char* filepath);
 	virtual ~Decoder();
 	/*
-	* Осуществляет процесс декодирования файла
+	* РћСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ РїСЂРѕС†РµСЃСЃ РґРµРєРѕРґРёСЂРѕРІР°РЅРёСЏ С„Р°Р№Р»Р°
 	*/
 	virtual void process();
 };
