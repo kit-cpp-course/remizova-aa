@@ -1,13 +1,13 @@
 #ifndef ENCODER_H
 #define ENCODER_H
 #include "Coder.h"
-/*Переводит картинку в бинарный файл*/
+/*РџРµСЂРµРІРѕРґРёС‚ РєР°СЂС‚РёРЅРєСѓ РІ Р±РёРЅР°СЂРЅС‹Р№ С„Р°Р№Р»*/
 class Encoder: public Coder
 {
 public:	
 	Encoder(const char* filepath);
 	virtual ~Encoder();
-	/*Осуществляет процесс кодирования файлов*/
+	/*РћСЃСѓС‰РµСЃС‚РІР»СЏРµС‚ РїСЂРѕС†РµСЃСЃ РєРѕРґРёСЂРѕРІР°РЅРёСЏ С„Р°Р№Р»РѕРІ*/
 	virtual void process();
 };
 
